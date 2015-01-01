@@ -1,21 +1,28 @@
 Guia corta y consisa para el uso de git convinado con github
 
-La página de github es http://github.com. Lo primero que debemos realizar antes que nada, es registrarnos. No voy a comentar como se hace eso porque es fácil. 
+La página de github es http://github.com. Lo primero que debemos realizar antes que nada, es registrarnos. 
+No voy a comentar como se hace eso porque es fácil. 
 
-Una vez que tengamos un usuario en github, tendremos que instalar las herramientas necesarios en nuestro sistema para acceder al repositorio. Soy usuario de Ubuntu, así que los pasos que explique aquí para instalar las herramientas serán para dicho sistema operativo. 
+Una vez que tengamos un usuario en github, tendremos que instalar las herramientas necesarios en nuestro sistema 
+para acceder al repositorio. Soy usuario de Ubuntu, así que los pasos que explique aquí para instalar las herramientas 
+serán para dicho sistema operativo. 
 
 Abramos una terminal y mediante apt-get instalemos git-core, git-gui y git-doc: 
 sudo apt-get install git-core git-gui git-doc 
 
-Tendremos que generar una clave SSH para conectarnos al servidor, esto si no tenemos una generada. Para hacerlo tenemos que ejecutar lo siguiente en la terminal: 
+Tendremos que generar una clave SSH para conectarnos al servidor, esto si no tenemos una generada. Para hacerlo 
+tenemos que ejecutar lo siguiente en la terminal: 
 ssh-keygen -t rsa -C "tu-email@tuemail.com" 
 
-Cuando genera la clave SSH nos indica el directorio en donde la guardo. En mi caso la genero en /root/.ssh/id_rsa.pub. Hacemos: 
+Cuando genera la clave SSH nos indica el directorio en donde la guardo. En mi caso la genero en /root/.ssh/id_rsa.pub. 
+Hacemos: 
 cat /root/.ssh/id_rsa.pub 
 
-Copiamos todo lo que nos devuelve y nos vamos a la página de github. Le damos click en la sección Account Settings que seria la opción del medio. 
+Copiamos todo lo que nos devuelve y nos vamos a la página de github. Le damos click en la sección Account Settings 
+que seria la opción del medio. 
 
-En el panel izquierdo veremos una opción que dice SSH Keys, ingresamos allí y colocamos la clave SSH que acabamos de generar. 
+En el panel izquierdo veremos una opción que dice SSH Keys, ingresamos allí y colocamos la clave SSH que acabamos de 
+generar. 
 
 Si en una terminal ejecutamos el comando ssh -T git@github.com tendría que conectarse correctamente al servidor. 
 
@@ -30,7 +37,9 @@ Deberemos crear un repositorio en github para guardar nuestro proyecto. Podemos 
 -Público: todos pueden ver nuestro proyecto y descargarlo. 
 -Privado: solo nosotros podemos acceder a este repositorio. Obviamente es una opción que solo podemos acceder pagando. 
 
-Para nuestro aprendizaje vamos a utilizar un repositorio público. Vamos a la página de github, ingresamos con nuestros datos, en la parte inferior podemos ver los repositorios que tenemos y un botón que dice New repository, le damos click y podremos ingresar los datos de nuestro repositorio público. 
+Para nuestro aprendizaje vamos a utilizar un repositorio público. Vamos a la página de github, ingresamos con nuestros
+datos, en la parte inferior podemos ver los repositorios que tenemos y un botón que dice New repository, le damos 
+click y podremos ingresar los datos de nuestro repositorio público. 
 
 Una vez creado el repositorio tenemos que usar git para acceder al mismo y subir nuestros archivos. 
 
@@ -54,11 +63,14 @@ Una vez hecho esto, tendremos que enlazar nuestro directorio local con el direct
 git remote add origin git@github.com:nombreDeUsuario/repositorio.git 
 git push -u origin master 
 
-Listo! Con esto tenemos completamente enlazado y configurado nuestro directorio local con el repositorio en github. Si vamos a nuestra cuenta veremos que en nuestro repositorio se encuentra el archivo README que recien subimos. 
+Listo! Con esto tenemos completamente enlazado y configurado nuestro directorio local con el repositorio en github. 
+Si vamos a nuestra cuenta veremos que en nuestro repositorio se encuentra el archivo README que recien subimos. 
 
 Y después? 
-La herramienta git tiene muchísimas funciones, es casi imposible memorizar todas, pero sí podemos ir aprendiendo como usar las más comunes. 
-Cuando modifiquen algún archivo o lo creen, tendrán que hacer un commit y un push para colocar esos cambios en el repositorio. Les voy a explicar como hacer eso, es muy simple. 
+La herramienta git tiene muchísimas funciones, es casi imposible memorizar todas, pero sí podemos ir aprendiendo 
+como usar las más comunes. 
+Cuando modifiquen algún archivo o lo creen, tendrán que hacer un commit y un push para colocar esos cambios en el 
+repositorio. Les voy a explicar como hacer eso, es muy simple. 
 
 Si creamos un nuevo archivo, tenemos que agregarlo con: 
 git add NuevoArchivo 
@@ -77,4 +89,10 @@ git push
 Si se ejecuta correctamente, entonces todos los cambios que indicamos serán aplicados a nuestro repositorio en github. 
 
 Conclusión 
-Github es muy potente, tiene miles de funciones, nos permitirá ser más productivos en nuestros desarrollos. Personalmente, me gustó, pero tengo que admitir que me falta muchísimo por aprender sobre esta herramienta, así que es muy seguro que haga otras publicaciones para explicar como utilizar ciertas funciones. Espero que el artículo les haya servido para iniciarse con github. En la página tienen un centro de ayuda donde explican como usar el servicio. 
+Github es muy potente, tiene miles de funciones, nos permitirá ser más productivos en nuestros desarrollos. 
+Personalmente, me gustó, pero tengo que admitir que me falta muchísimo por aprender sobre esta herramienta, 
+así que es muy seguro que haga otras publicaciones para explicar como utilizar ciertas funciones. Espero que el 
+artículo les haya servido para iniciarse con github. En la página tienen un centro de ayuda donde explican como usar 
+el servicio.
+
+Origen: http://www.taringa.net/post/linux/14340036/Usando-github.html
