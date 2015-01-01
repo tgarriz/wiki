@@ -1,0 +1,31 @@
+Guia corta y consisa para el uso de git convinado con github
+
+La página de github es http://github.com. Lo primero que debemos realizar antes que nada, es registrarnos. No voy a comentar como se hace eso porque es fácil. 
+
+Una vez que tengamos un usuario en github, tendremos que instalar las herramientas necesarios en nuestro sistema para acceder al repositorio. Soy usuario de Ubuntu, así que los pasos que explique aquí para instalar las herramientas serán para dicho sistema operativo. 
+
+Abramos una terminal y mediante apt-get instalemos git-core, git-gui y git-doc: 
+sudo apt-get install git-core git-gui git-doc 
+
+Tendremos que generar una clave SSH para conectarnos al servidor, esto si no tenemos una generada. Para hacerlo tenemos que ejecutar lo siguiente en la terminal: 
+ssh-keygen -t rsa -C "tu-email@tuemail.com" 
+
+Cuando genera la clave SSH nos indica el directorio en donde la guardo. En mi caso la genero en /root/.ssh/id_rsa.pub. Hacemos: 
+cat /root/.ssh/id_rsa.pub 
+
+Copiamos todo lo que nos devuelve y nos vamos a la página de github. Le damos click en la sección Account Settings que seria la opción del medio. 
+
+La página de github es http://github.com. Lo primero que debemos realizar antes que nada, es registrarnos. No voy a comentar como se hace eso porque es fácil. 
+
+Una vez que tengamos un usuario en github, tendremos que instalar las herramientas necesarios en nuestro sistema para acceder al repositorio. Soy usuario de Ubuntu, así que los pasos que explique aquí para instalar las herramientas serán para dicho sistema operativo. 
+
+Abramos una terminal y mediante apt-get instalemos git-core, git-gui y git-doc: 
+sudo apt-get install git-core git-gui git-doc 
+
+Tendremos que generar una clave SSH para conectarnos al servidor, esto si no tenemos una generada. Para hacerlo tenemos que ejecutar lo siguiente en la terminal: 
+ssh-keygen -t rsa -C "tu-email@tuemail.com" 
+
+Cuando genera la clave SSH nos indica el directorio en donde la guardo. En mi caso la genero en /root/.ssh/id_rsa.pub. Hacemos: 
+cat /root/.ssh/id_rsa.pub 
+
+Copiamos todo lo que nos devuelve y nos vamos a la página de github. Le damos click en la sección Account Settings que seria la opción del medio. 
