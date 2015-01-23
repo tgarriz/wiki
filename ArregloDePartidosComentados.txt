@@ -5,12 +5,12 @@ ALTER TABLE parcelas ADD COLUMN plano character varying(14);
 
 #Vinculo los planos
 update parcelas pc 
-set pc.plano = pl.plano
+set plano = pl.plano
 from planospos2000 pl 
 where pc.nomencla = pl.nomencla and pc.plano is null;
 
 update parcelas pc 
-set pc.plano = pl.plano
+set plano = pl.plano
 from planosant2000 pl 
 where pc.nomencla = pl.nomencla and pc.plano is null;
 
