@@ -1,0 +1,24 @@
+ Consideraciones al renombrar una tabla en PostgreSQL
+Renombrar una tabla es algo sencillo, simplemente hacemos uso del comando ALTER TABLE:
+
+ALTER TABLE nombre_actual RENAME TO nuevo_nombre;
+
+Sin embargo, este comando sólo renombra la tabla mientras los nombres de sus índices, secuencias, llaves 
+foráneas y otros constraints permanecen iguales. Esto podría no ser un problema, pero si estos nombres 
+son parte del diseño de la BD y queremos cambiarlos, deberemos renombrar los índices y secuencias uno por uno:
+
+ALTER INDEX nombre_actual_pkey RENAME TO nuevo_nombre_pkey;
+ALTER SEQUENCE nombre_actual_id_seq RENAME TO nuevo_nombre_id_seq;
+
+y recrear las llaves foráneas y constraints:
+
+ALTER TABLE nombre_actual DROP CONSTRAINT nombre_actual_campo_fkey;
+ALTER TABLE nombre_actual ADD CONSTRAINT nuevo_nombre_campo_fkey REFERENCES otra_tabla(id);
+
+Otra opción es hacer un backup de la tabla, eliminarla, recrearla con los nombres que deseamos 
+y cargar el backup de datos.
+
+Ahora, aunque el renombrar la tabla no renombra sus lláves foráneas SÍ cambia la definición de 
+llaves foráneas que dependan de la tabla renombrada, por lo que se conserva la integridad referencial. 
+Por ejemplo si tenemos la tabla 'otra_tabla' que tiene una llave foránea al campo 'nombre_actual.id', al 
+renombrar esta tabla la llave foránea dentro de 'otra_tabla' es redefinida para referenciar al campo 'nuevo_nombre.id'.
