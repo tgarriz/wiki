@@ -2,7 +2,7 @@ Como cargar shape a postgis por consola de comandos
 
 El siguiente comando lee el archivo ocean.shp y crea la tabla espacial con el mismo nombre.
 
-> shp2pgsql -s 4326  -I C:\ruta\ocean.shp public.ocean > ocean.sql
+> shp2pgsql -s 4326 -W "UTF-8" -I C:\ruta\ocean.shp public.ocean > ocean.sql
 El comando shp2pgsql crea un código SQL de PostGIS en el que se especifica:
 
 -s especifica el sistema de coordenadas
