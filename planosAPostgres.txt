@@ -10,3 +10,6 @@ update planospos2000 set plano = partido||'-'||sec||'-'||anio;
 
 Asingar nomencla
 update planospos2000 set nomencla = creanomencla(part, circ, secc, chac, qui, fracc, mz, pc);
+
+Asignar permisos a usuario consulta
+grant select on all tables in schema public to consulta;
