@@ -1,4 +1,6 @@
 Arreglo de tabla parcelas comentado
+Asigno permisos de consuta a usuario consulta para todo el schema public
+grant select on all tables in schema public to consulta;
 
 #agrego columna plano
 ALTER TABLE parcelas ADD COLUMN plano character varying(14);
