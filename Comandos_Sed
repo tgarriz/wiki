@@ -1,0 +1,8 @@
+Eliminar espacios en blanco
+sed -e 's/[\t ]//g;/^$/d' fichero > fichero_sin_espacios_en_blanco
+
+Eliminar el caracter punto
+sed -e 's/[.]//g;/^$/d' select_hasta2000.csv > sel_hasta2000.csv
+
+Eliminar caracter "
+sed -e 's/["]//g;/^$/d' sel_hasta2000.csv > hasta2000.csv
