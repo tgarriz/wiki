@@ -1,0 +1,21 @@
+HACER EL BACKUP
+
+Con el siguiente comando sacaremos respaldo del esquema (schema) de la base de datos:
+pg_dump -sv prueba -O > /backup/prueba.schema.sql
+Con el siguiente comando sacaremos el repaldo de la DATA de la base de datos:
+pg_dump -Fc -f /backup/prueba.data.dump -a –disable-triggers prueba
+Estamos usando las opciones -Fc que significa la F de formato y la c de custom, estamos utilizando el formato custom, para así al momento de restaurar la base de datos en otro server o en otra base de datos se nos hará mas fácil porque vamos a utilizar el comando pg_restore.
+La opción -f lo uso para especificar el archivo.
+La opción -a especificar que quiero solo exportar la data.
+La opción  –disable-triggers la uso para que no de problemas a la hora de hacer la restauración.
+Estos comandos nos crearan dos archivos, uno con el esquema (schema) y otro con la data de la base de datos.
+Para restaurar la información haremos lo siguiente.
+
+RESTAURAR (tener en cuenta que si no esta creada la BD tendremos que crearla)
+
+Ya estando de vuela en la consola de sistema, ejecutaremos el siguiente comando:
+psql prueba < prueba.schema.sql
+Con este comando importaremos el schema en la nueva base de datos.
+Ahora con el siguiente comando importaremos toda la data:
+pg_restore -a -v -e -Fc -O –disable-triggers -d prueba prueba.data.dump
+Con este comando insertaremos toda la data en la nueva base de datos.
