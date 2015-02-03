@@ -1,0 +1,19 @@
+Si lo aplicara a los ejemplos que antes dí sobre pg_dump, nuestro ejemplo de pg_restore seria el siguiente.
+
+pg_restore -i -h localhost -p 5432 -U postgres -d mibase -v "/home/damian/backups/mibase.backup"
+
+Una vez que lo ejecutemos, se nos pedirá la contraseña del usuario que vamos a usar.
+Sobre los parámetros del ejemplo, paso a detallarlos.
+
+    -i le indica que ignore la versión (entre el comando y la base de datos).
+    -h localhost es el host de nuestro PostgreSql.
+    -p 5432 es la indicación del puerto donde corre el servicio.
+    -U postgres especifica que se usará el usuario postgres para la operación.
+    -d mibase es para que realize la restauración sobre una base de datos en particular, en este caso mibase.
+    -v ejecutará el comando en modo verbose (así podremos ir viendo la salida de cada paso del proceso).
+    /home/damian/backups/mibase.backup es el archivo que usaremos como backup y que queremos ingresar.
+
+En el caso de que hayamos hecho un backup de una tablar especifica, o ese backup lo hayamos sacado en formato script sql
+
+psql -d geobasig_local -h localhost -U postgres -f planosant2000.sql 
+
