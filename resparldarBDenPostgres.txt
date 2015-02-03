@@ -19,3 +19,60 @@ Con este comando importaremos el schema en la nueva base de datos.
 Ahora con el siguiente comando importaremos toda la data:
 pg_restore -a -v -e -Fc -O –disable-triggers -d prueba prueba.data.dump
 Con este comando insertaremos toda la data en la nueva base de datos.
+
+OTRA FORMA DE RESPALDAR UNA BD
+
+pg_dump -i -h localhost -p 5432 -U postgres -F c -b -v -f "/home/damian/backups/mibase.backup" mibase
+Veamos qué significan cada uno de los parametros que estamos indicando.
+
+  pg_dump es el comando en si mismo.
+  -i le indica que ignore la versión (entre el comando y la base de datos).
+  -h localhost especifica el host del motor de base de datos (localhost en este caso).
+  -p 5432 es la indicación del puerto donde corre el servicio.
+  -U postgres es para indicarle que usaremos el usuario postgres.
+  -F indica el formato de salida.
+  c es la elección del formato (comprime en este caso).
+  -b indica que vuelque los LO (large objects).
+  -v verbose.
+  -f es el archivo de salida.
+  /home/damian/backups/mibase.backup es el nombre para el archivo de salida (con path).
+  mibase es el nombre de la base a backupear.
+
+BACKUP DE TABLAS ESPECÍFICAS
+
+Para exportar sólo un conjunto de tablas, tenemos que hacer un pequeño cambio.
+
+pg_dump -i -h localhost -p 5432 -U postgres -t tabla -F p -b -v -f "/home/damian/backups/mitabla.sql" mibase
+
+La diferencia entre ambos scripts radica en que agregamos el parámetro -t seguido del nombre de nuestra tabla (en este caso, con poca inspiración, usé tabla).
+Lo que vamos a obtener es, solamente,  un backup de la tabla indicada, con su estructura y datos.
+Si lo que necesitamos son un conjunto de tablas, tenemos dos formas de hacerlo.  La primera es usando el parámetro -t tantas veces como tablas vayamos a requerir.
+
+pg_dump -i -h localhost -p 5432 -U postgres -t usuarios -t documentos -t logs -F p -b -v -f "/home/damian/backups/mistablas.sql" mibase
+
+La segunda forma, es utilizar patrones (si es que se aplica a nuestro caso).
+
+pg_dump -i -h localhost -p 5432 -U postgres -t productos_* -F p -b -v -f "/home/damian/backups/mistablas.sql" mibase
+
+En ambos casos, se hará un backup de las tablas, vistas y/o secuencias que coincidan con lo indicado.
+Llegado el caso, podríamos combinar ambos ejemplos y generar algo parecido a esto.
+
+pg_dump -i -h localhost -p 5432 -U postgres -t usuarios_* -t documentos_* -t logs_* -F p -b -v -f "/home/damian/backups/mistablas.sql" mibase
+
+De ésta forma obtendríamos todas las tablas (y/o vistas y/o secuencias) que comienzen con usuarios_, documentos_ y logs_.
+Hay que tener en cuenta que al usar ésta técnica, pg_dump no intentará obtener aquellos objetos de los cuales puedan depender nuestras tablas. Es por eso que no se da garantía de que pueda restaurarse sin problemas éste backup.
+Si prestan atención, comparando con el primer ejemplo que hace un backup total de la base de datos, hice un cambio al parámetro -F, pasándole como valor p en lugar de c. Lo que hace este cambio es devolver el backup en formato plano y no comprimido.
+Otro escenario posible es que, en lugar de querer backupear ciertas tablas, quieren obtener todas, menos algunas. Ésto también es posible, sólo debemos hacer otro pequeño cambio.
+El ejemplo sería el siguiente.
+
+pg_dump -i -h localhost -p 5432 -U postgres -T productos_* -F p -b -v -f "/home/damian/backups/mibase.sql" mibase
+
+El parámetro -T es el que se encarga de excluir una tabla. De ésta forma, el ejemplo anterior haría un backup completo, pero sin las tablas indicadas.
+El tercer escenario, sería la combinación de ambos parámetros.
+El comportamiento en este caso varía un poco. Vamos con un ejemplo.
+
+pg_dump -i -h localhost -p 5432 -U postgres -T *productos -t documentos_* -t logs_* -F p -b -v -f "/home/damian/backups/mistablas.sql" mibase
+
+Con ambos parámetros presentes, lo que se obtiene es un backup de los objetos indicados en -t pero que no coincidan con el patrón que toma -T.
+Según el ejemplo, se hará backup de todas las tablas que comiencen con documentos_ y logs_, pero se excluirán todas aquellas que terminen con productos.
+Es decir que si existiera una tabla llamada logs_productos, ésta no será backupeada.
