@@ -1,0 +1,32 @@
+Pgpass es una variable de entorno.
+Este archivo no se crea por defecto, y varía levemente el procedimiento si lo usamos en Linux o en Windows. 
+En ambos casos, el archivo contendrá la misma información:
+
+host:puerto:basededatos:usuario:contraseña
+
+En mi ejemplo, el encargado de realizar el backup será nuestro querido root.
+Para que funcione, siempre y cuando tengamos los privilegios, vamos dentro de la carpeta /root y creamos el archivo .pgpass.
+Una forma rapida, y presuponiendo que estamos logueados como root, sería la siguiente.
+
+echo "192.168.0.1:5432:mibase:miusuario:micontraseña" >> ~/.pgpass
+
+Si todo salió bien, ya tenemos creado el archivo.
+Bueno, ya tenemos resuelto el detalle de la contraseña. 
+Ahora, simplemente, creamos un archivo que será el que vamos a programar para que se ejecute automaticamente y nos realize el backup.
+Dentro de nuestro script pondremos el comando:
+
+pg_dump -i -h 192.168.0.1 -p 5432 -U miusuario -F c -b -v -f "/home/damian/backups/mibase.backup" mibase
+
+Ahora cuando el script necesite la contraseña para conectarse, la tomará del Pgpass….
+
+Automatización con crontab
+Vamos a crear un pequeño script que automatice esta tarea y lo vamos a programar  para que se ejecute periódicamente gracias a cron. Lo primero será crear un fichero .sh con permisos de ejecución con la orden de copia de seguridad. Si queréis que os genere un fichero del estilo “db_back_Lunes.sql”, podéis usar el siguiente código:
+
+#! /bin/bash
+fecha=`date +%A`
+pg_dump -h direccion_servidor -U usuario base_datos > "db_back_$fecha.sql"
+
+Ahora accedemos a crontab (situado en /etc) lo editamos y estará listo, agregamos una línea como la siguiente para que se ejecute a diario (en esta línea en concreto se ejecuta a las 2:00 am, buena hora para este tipo de operaciones):
+
+0 2 * * * usuario /ruta_a_fichero/backup_pg.sh
+Le damos permiso de ejecucion al script con chmod +x backup_pg.sh
