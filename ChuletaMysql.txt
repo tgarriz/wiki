@@ -1,0 +1,19 @@
+Entrar en consola mysql
+$ mysql -u root -p
+
+Borrar registro
+DELETE FROM table_name WHERE 1>0 limit 1;
+DELETE FROM t1,t2 USING t1,t2,t3 WHERE t1.id=t2.id AND t2.id=t3.id;
+
+Usar bd
+use mi_bd
+
+Ver tablas de una bd
+SHOW FULL TABLES FROM mi_base_de_datos
+SHOW FULL TABLES FROM mi_base_de_datos LIKE '%busqueda%'
+
+Backup
+$ mysqldump --user=TU_USUARIO --password=TU_CONTRASEÑA NOMBRE_BASE_DE_DATOS > copia_seguridad.sql
+
+Restaurar backup
+$ mysql --user=TU_USUARIO --password=TU_CONTRASEÑA < copia_seguridad.sql
