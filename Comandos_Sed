@@ -6,3 +6,6 @@ sed -e 's/[.]//g;/^$/d' select_hasta2000.csv > sel_hasta2000.csv
 
 Eliminar caracter "
 sed -e 's/["]//g;/^$/d' sel_hasta2000.csv > hasta2000.csv
+
+Todo junto en un solo comando
+sed -e 's/[\t ]//g;/^$/d' fichero | sed -e 's/[.]//g;/^$/d' | sed -e 's/["]//g;/^$/d' > nuevoFichero.csv
