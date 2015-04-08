@@ -8,7 +8,7 @@ where ST_intersects(ST_centroid(r.geom),p.geom);
 
 --inserto  parcelas reunidas
 insert into parcelas (nomencla,partido,etiqueta,rural,partida,caracteris,geom)
-	      select nomencla,partido,etiqueta,rural,partida,caracteris,geom from parcelas_reunion
+	      select nomencla,partido,etiqueta,rural,partida,caracteris,geom from parcelas_reunion;
 
 --agrego columna plano
 ALTER TABLE parcelas ADD COLUMN plano character varying(14);
