@@ -1,2 +1,4 @@
 Revisar el archivo web.xml ubicado en  geoserver/webapps/geoserver/WEB-INF/web.xml, en el 
 caso del geobasig se debe activar la opcion de consultas por JSONP ya que viene desactivada por default.
+
+Linquear nuevamente la carpeta /opt/geoserver
