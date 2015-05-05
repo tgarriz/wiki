@@ -1,0 +1,7 @@
+Los casos en que se necesita tanto copiar una tabla a nivel de estructura (DDL) dentro de una base de datos o también con sus datos va depender del problema a resolver, por lo tanto, van a existir un sin número de casos  en base a problemas a resolver, como también de distintas soluciones.
+En mi caso, generalmente copio la tabla para poder ver trabajar en esta copia sin comprometer los datos de producción y luego que confirmo que estos cambios en estructura o datos se comportan bien los aplico a la tabla original.
+En PostgreSQL es muy fácil copiar una tabla a otra con otro nombre, en el caso que solo requiera solo copiar la estructura de la tabla en -sin los datos- , tipo esquema dentro de la base de datos. Realizo lo siguiente
+CREATE TABLE cliente_rsp AS SELECT * FROM cliente WHERE 1=2
+En este ejemplo anterior copio la estructura de la tabla cliente en una tabla que llamaré cliente_rsp . Si uno mira la sentencia indica que cree una tabla cliente_rsp en base a un SELECT que por la condición 1=2 no devuelve nada, o sea, solo la estructura.
+Siguiendo  el ejemplo anterior si quisiera también copiar los datos en esta nueva tabla debería solo sacar la condición, y quedaría
+CREATE TABLE cliente_rsp AS SELECT * FROM cliente
