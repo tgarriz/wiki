@@ -1,0 +1,63 @@
+Mini How-To: Generar certificados autofirmados con OpenSSL para Apache HTTP Server
+-por José Morales Mora.
+
+PASO 1. Generar Clave RSA
+Ejecutar:
+
+?
+openssl genrsa -des3 -out server.key 1024
+
+Genera una clave CA para realizar la firma del certificado. Nos pide la clave privada para este certificado. Podemos especificar el tamaño de la clave ( 1024, 2048)
+
+PASO 2. Generar CSR ( Petición de Firma de Certificado)
+Ejecutar:
+
+?
+openssl req -new -key server.key -out server.csr
+
+Realiza una petición para la firma con clave privada especificado. Al realizarlo nos pide datos:
+
+?
+Country Name (2 letter code) []:
+State or Province Name (full name) []:
+Locality Name (eg, city) []:
+Organization Name (eg, company) []:
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []: 
+Email Address []:
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+?
+  
+?
+ 
+IMPORTANTE: El "Common Name" debe corresponder con la URL que queremos Securizar. Si la URL a poner por SSL es www.paco.es, este campo debe contener exactamente eso.
+
+
+PASO 3. Eliminar Clave Privada DES3
+Ejecutar:
+
+?
+cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+
+Esto es necesario porque en estos casos que tenemos un certificado firmado con clave primaria, Apache HTTP Server pide en cada arranque esa clave para utilizar el certificado. La solución es eliminar la encriptación DES3 para la clave.
+
+
+PASO 4 . Generar Certificado Autofirmado.
+Ejecutar:
+
+?
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+Con este paso obtenemos el CRT autofirmado preparado para ser utilizado en apache.
+
+PASO 5. Configurar Apache
+Para utilizar estos certificados en apache, lo que tenemos que hacer es añadir al Virtual Host que queramos:
+
+?
+SSLEngine on
+SSLCertificateFile /usr/local/apache/conf/ssl.crt/server.crt
+SSLCertificateKeyFile /usr/local/apache/conf/ssl.key/server.key
