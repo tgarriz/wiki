@@ -11,6 +11,9 @@ copy planosant2000 (id,partido,sec,anio,circ,secc,chac,rtec,quin,rteq,fracc,mz,p
 Asignar plano, nomencla y objetos
 update planospos2000 set plano = partido||'-'||sec||'-'||anio, nomencla = creanomencla(partido, circ, secc, chac, quin, fracc, mz, pc), objetos = genera_objetos(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9) ;
 
+Correr corrector.sql(que esta en github)
+Corrige nomenclaturas mal cargadas en las tablas de geodesia
+
 Crear indices en tablas planos
 create index nomenclapos_btree on planospos2000 using btree(nomencla);
 create index planopos_btree on planospos2000 using btree(plano);
@@ -31,6 +34,12 @@ psql -d geobasig -f cargatotal.sql (cargo las tablas al mismo tiempo)
 Agrego campo objetos y plano a tabla parcelas
 alter table parcelas add column plano character varying(14);
 alter table parcelas add column objetos character varying(300);
+
+Creo indice del campo nomencla
+create index nomencla_btree on parcelas using btree(nomencla);
+
+Asignar valores a campo plano y objetos
+
 
 Asignar permisos a usuario consulta
 grant select on all tables in schema public to consulta;
