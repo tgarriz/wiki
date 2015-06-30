@@ -1,11 +1,7 @@
-update parcelas pc set objetos = (select genera_objetos(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9) 
-					from planospos2000 pl
-					where pc.plano = pl.plano
-					limit 1)
-where right(plano,4) > '1999';
-					
- update parcelas pr set objetos = (select genera_objetos(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9) 
-				from planosant2000 pl
-				where pl.obj1 != '' and pr.plano = pl.plano
-				limit 1)
-where right(plano,4) < '2000';
+update planospos2000 pl set objetos = (select genera_objetos(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9) from pl);
+
+update planosant2000 pl set objetos = (select genera_objetos(obj1, obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9) from pl);
+
+ update parcelas pr set objetos = (select objetos from planosant2000 pl where  pr.plano = pl.plano limit 1) where right(plano,4) < '2000';
+
+ update parcelas pr set objetos = (select objetos from planospos2000 pl where  pr.plano = pl.plano limit 1) where right(plano,4) > '1999';
