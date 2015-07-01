@@ -17,3 +17,22 @@ $ mysqldump --user=TU_USUARIO --password=TU_CONTRASEÑA NOMBRE_BASE_DE_DATOS > c
 
 Restaurar backup
 $ mysql --user=TU_USUARIO --password=TU_CONTRASEÑA < copia_seguridad.sql
+
+ Obtener los campos de una tabla en MySQL
+Para obtener una lista con los campos de una tabla en MySQL, deberemos ejecutar la siguiente consulta:
+
+    USE information_schema;
+    SELECT * FROM COLUMNS WHERE TABLE_SCHEMA = '<Base de datos>' AND TABLE_NAME = '<Nombre de la tabla>';
+
+si tienes instalada la versión 5.0.1 o superior de MySQL también puedes ejecutar:
+
+    SHOW COLUMNS FROM <Base de datos>.<Nombre de la tabla>;
+
+o también
+
+    SHOW COLUMNS FROM <Nombre de la tabla> FROM <Base de datos>;
+
+o también
+
+    USE <Base de datos>;
+    DESCRIBE <Nombre de la tabla>;
