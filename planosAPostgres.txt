@@ -23,8 +23,8 @@ create index planoant_btree on planosant2000 using btree(plano);
 Cargar shapes de ARBA
 shp2pgsql -s 22185 -W "LATIN1" -I calles.shp public.calles > calles.sql 
 shp2pgsql -s 22185 -W "LATIN1" -I circunscripcion.shp public.circunscripcion > circunscripcion.sql
-shp2pgsql -s 22185 -W "UTF-8" -I macizos.shp public.macizos > macizos.sql
-shp2pgsql -s 22185 -W "UTF-8" -I parcelas_reunion.shp public.parcelas_reunion > parcelas_reunion.sql
+shp2pgsql -s 22185 -W "LATIN1" -I macizos.shp public.macizos > macizos.sql
+shp2pgsql -s 22185 -W "LATIN1" -I parcelas_reunion.shp public.parcelas_reunion > parcelas_reunion.sql
 shp2pgsql -s 22185 -W "LATIN1" -I parcelas.shp public.parcelas > parcelas.sql
 shp2pgsql -s 22185 -W "LATIN1" -I seccion.shp public.seccion > seccion.sql
 shp2pgsql -s 22185 -W "LATIN1" -I subparcelas.shp public.subparcelas > subparcelas.sql
