@@ -1,0 +1,9 @@
+Instalar geonetwork 2.10.3 en tomcat7 con debian
+(aca solo explico como instalar geonetwork)
+1-descaqrgar el war y tirarlo en /var/lib/tomcat7/webapps/
+2-Reiniciar el tomcat
+3-editar /var/lib/tomcat7/webapps/geonetwork/WEB-INF/config.xml y configurarle una bd, si no se usa postgresql 
+y se quiere dejar h2 que es la q viene x default se debera crear un directorio con permisos de escritura
+(en mi caso /geonetwork_db) y redireccionar el geonetwork ahi.
+4- Para dejar el lenguaje español por default hay que tocar 2 archivos, el index.html que esta en el raiz del 
+geonetwork y cambiar el "eng" por el "spa" y en el config.xml cambiar el "eng" por "es"
