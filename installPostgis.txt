@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# Install Postgres 9.2, PostGIS and create PostGIS template on an Ubuntu 12.04 Server
+
+# add official postgresql.org ubuntu repos (http://wiki.postgresql.org/wiki/Apt)
+# Create /etc/apt/sources.list.d/pgdg.list. The distributions are called codename-pgdg. 
+
+echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg2.list
+
+# Import the repository key from http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc, update the package lists, and start installing packages:
+
+wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+
+# add the ubuntu gis ppa
+sudo apt-get -y install python-software-properties
+sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable 
+sudo apt-get update 
+
+# the big list of apt dependencies to check we have installed
+sudo apt-get install postgis postgresql-9.2 postgresql-server-dev-9.2 postgresql-contrib-9.2 binutils libxml2-dev proj libjson0-dev xsltproc docbook-xsl docbook-mathml gettext libgdal-dev libgeos-3.3.8 libgeos-dev checkinstall libpq-dev
+
+sudo mkdir -p '/usr/share/postgresql/9.2/contrib/postgis-2.0'
+
+# fetch, compile and install PostGIS
+sudo wget http://download.osgeo.org/postgis/source/postgis-2.0.3.tar.gz
+sudo tar zxvf postgis-2.0.3.tar.gz && cd postgis-2.0.3/
+sudo ./configure --with-gui && sudo make && sudo checkinstall --pkgname postgis-2.0.3 --pkgversion -src --default
+
+## Update libraries
+sudo ldconfig
+
+# link postgis utilities to public
+sudo ln -sf /usr/lib/postgresql/9.2/bin/raster2pgsql /usr/local/bin/raster2pgsql  
+sudo ln -sf /usr/lib/postgresql/9.2/bin/shp2pgsql /usr/local/bin/shp2pgsql  
+sudo ln -sf /usr/lib/postgresql/9.2/bin/shp2pgsql-gui /usr/local/bin/shp2pgsql-gui  
+
+# Verify visibility of postgis extension
+psql 
+SELECT name, default_version,installed_version 
+FROM pg_available_extensions WHERE name LIKE 'postgis%' ;
+
+# now create the template_postgis database template
+sudo su postgres -c 'createdb -E UTF8 -U postgres template_postgis'
+sudo su postgres -c 'createlang -d template_postgis plpgsql;'
+sudo su postgres -c 'createlang -d template_postgis hstore;'
+sudo su postgres -c 'createlang -d template_postgis postgis;'
+sudo su postgres -c 'createlang -d template_postgis postgis_topology;'
+sudo su postgres -c 'createlang -d template_postgis xml2;'
+
+# Final test
+psql -d template_postgis
+\dx
+
+# Old Versions
+# sudo su postgres -c'psql -U postgres -d template_postgis -c"CREATE EXTENSION hstore;"'
+# sudo su postgres -c'psql -U postgres -d template_postgis -f /usr/share/postgresql/9.2/contrib/postgis-2.0/postgis.sql'
+# sudo su postgres -c'psql -U postgres -d template_postgis -f /usr/share/postgresql/9.2/contrib/postgis-2.0/spatial_ref_sys.sql'
+# sudo su postgres -c'psql -U postgres -d template_postgis -c"select postgis_lib_version();"'
+# sudo su postgres -c'psql -U postgres -d template_postgis -c "GRANT ALL ON geometry_columns TO PUBLIC;"'
+# sudo su postgres -c'psql -U postgres -d template_postgis -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"'
+# sudo su postgres -c'psql -U postgres -d template_postgis -c "GRANT ALL ON geography_columns TO PUBLIC;"'
+echo "Done!"
