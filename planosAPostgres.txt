@@ -35,11 +35,16 @@ Agrego campo objetos y plano a tabla parcelas
 alter table parcelas add column plano character varying(14);
 alter table parcelas add column objetos character varying(300);
 
-Creo indice del campo nomencla
+Creo Indice del campo nomencla
 create index nomencla_btree on parcelas using btree(nomencla);
 
 Asignar valores a campo plano y objetos a tablas geodesia
 Para asignar plano a tabla parcelas correr script ArregloDePartidosParaEjecutar.sql
+
+Crear Indices en tabla parcelas
+create index plano_btree on parcelas using btree(plano);
+create index partida_btree on parcelas using btree(partida);
+
 Para asignar objetos a tabla parcelas correr 
 
 
