@@ -2,14 +2,6 @@
 --Asigno permisos de consuta a usuario consulta para todo el schema public
 grant select on all tables in schema public to consulta;
 
---elimino parcelas reunidas
-delete from only parcelas p using parcelas_reunion r
-where ST_intersects(ST_centroid(r.geom),p.geom);
-
---inserto  parcelas reunidas
-insert into parcelas (nomencla,partido,etiqueta,rural,partida,caracteris,geom)
-	      select nomencla,partido,etiqueta,rural,partida,caracteris,geom from parcelas_reunion;
-
 --agrego columna plano
 ALTER TABLE parcelas ADD COLUMN plano character varying(14);
 
