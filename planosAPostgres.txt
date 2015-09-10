@@ -2,11 +2,21 @@ Primero vaciamos la tabla, en el ejemplo la tabla planospos2000
 delete from planospos2000;
 Dpues saco el encabezado del csv, elimino los " y los .
 
-Cargar csv a postgres para planos despues del 2000
+(ya no cargo los csv tranfiero tablas con dbeaver)
+<!--Cargar csv a postgres para planos despues del 2000
 copy planospos2000 (id,nro_prov,anio_inicio,orden,partido,sec,anio,circ,secc,chac,rtec,quin,rteq,fracc,mz,pc,rtep,tipo,obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9) from '/home/tgarriz/select_from_tbl_Desde_2000_201501221127.csv' with delimiter ';';
 
 Cargar csv a postgres para planos ant al 2000
 copy planosant2000 (id,partido,sec,anio,circ,secc,chac,rtec,quin,rteq,fracc,mz,pc,rtep,tipo,obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9) from '/tmp/hasta2000.csv' with delimiter ';';
+-->
+Borrar puntos y espacios en blanco de las tablas pos y ant recien copiadas
+update pos2000 set circ=replace(replace(circ,' ',''),'.',''),
+		   secc=replace(replace(secc,' ',''),'.',''),
+		   chac=replace(replace(chac,' ',''),'.',''),
+		   quin=replace(replace(quin,' ',''),'.',''),
+		   frac=replace(replace(frac,' ',''),'.',''),
+		   manz=replace(replace(manz,' ',''),'.',''),
+		   parc=replace(replace(parc,' ',''),'.','');
 
 Agrego campo planos, nomencla y objetos
 alter table planospos2000 add column plano character varying(13);
