@@ -1,3 +1,11 @@
+update pos2000 set circ=replace(replace(circ,' ',''),'.',''),
+		   secc=replace(replace(secc,' ',''),'.',''),
+		   chac=replace(replace(chac,' ',''),'.',''),
+		   quin=replace(replace(quin,' ',''),'.',''),
+		   frac=replace(replace(frac,' ',''),'.',''),
+		   manz=replace(replace(manz,' ',''),'.',''),
+		   parc=replace(replace(parc,' ',''),'.','');
+		   
 Eliminar espacios en blanco
 sed -e 's/[\t ]//g;/^$/d' fichero > fichero_sin_espacios_en_blanco
 
