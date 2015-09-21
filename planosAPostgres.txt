@@ -10,6 +10,10 @@ Dpues saco el encabezado del csv, elimino los " y los .
   alter table planosant2000 rename column ano_ini to anio;
   alter table planospos2000 rename column nro_part to partido;
   alter table planosant2000 rename column nro_part to partido;
+  alter table planospos2000 rename column manz to mz;
+  alter table planosant2000 rename column manz to mz;
+  alter table planospos2000 rename column parc to pc;
+  alter table planosant2000 rename column parc to pc;
   
 
 <!--Cargar csv a postgres para planos despues del 2000
