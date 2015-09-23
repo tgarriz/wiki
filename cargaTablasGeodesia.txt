@@ -1,0 +1,182 @@
+--Script sql que una vez tranferidas las tablas de planos pos y ant formatea dicha formatea dichas tablas para ser utilizadas por el geobasig
+--Tener en cuenta que primero se debe realizar este paso anterior a la carga de los shapes de arba
+
+---------cargaTablasGeo.sql---------
+alter table planosant2000 rename column "ID" to id;
+alter table planospos2000 rename column "ID" to id;
+alter table planospos2000 rename column ano_ini to anio;
+alter table planosant2000 rename column ano_ini to anio;
+alter table planospos2000 rename column nro_part to partido;
+alter table planosant2000 rename column nro_part to partido;
+alter table planospos2000 rename column manz to mz;
+alter table planosant2000 rename column manz to mz;
+alter table planospos2000 rename column parc to pc;
+alter table planosant2000 rename column parc to pc;
+
+--Quito espacios en blanco y puntos
+update planospos2000 set circ=replace(replace(circ,' ',''),'.',''),
+		   secc=replace(replace(secc,' ',''),'.',''),
+		   chac=replace(replace(chac,' ',''),'.',''),
+		   quin=replace(replace(quin,' ',''),'.',''),
+		   frac=replace(replace(frac,' ',''),'.',''),
+		   manz=replace(replace(manz,' ',''),'.',''),
+		   parc=replace(replace(parc,' ',''),'.','');
+update planospos2000 set obj1=trim(obj1,' '),
+			obj2=trim(obj2,' '),
+			obj3=trim(obj3,' '),
+			obj4=trim(obj4,' '),
+			obj5=trim(obj5,' '),
+			obj6=trim(obj6,' '),
+			obj7=trim(obj7,' '),
+			obj8=trim(obj8,' '),
+			obj9=trim(obj9,' ');
+update planosant2000 set circ=replace(replace(circ,' ',''),'.',''),
+		   secc=replace(replace(secc,' ',''),'.',''),
+		   chac=replace(replace(chac,' ',''),'.',''),
+		   quin=replace(replace(quin,' ',''),'.',''),
+		   frac=replace(replace(frac,' ',''),'.',''),
+		   manz=replace(replace(manz,' ',''),'.',''),
+		   parc=replace(replace(parc,' ',''),'.','');
+update planosant2000 set obj1=trim(obj1,' '),
+			obj2=trim(obj2,' '),
+			obj3=trim(obj3,' '),
+			obj4=trim(obj4,' '),
+			obj5=trim(obj5,' '),
+			obj6=trim(obj6,' '),
+			obj7=trim(obj7,' '),
+			obj8=trim(obj8,' '),
+			obj9=trim(obj9,' ');
+
+--Creo los nuevos campos
+alter table planospos2000 add column plano character varying(13);
+alter table planosant2000 add column plano character varying(13);
+alter table planospos2000 add column nomencla character varying(42);
+alter table planosant2000 add column nomencla character varying(42);
+alter table planospos2000 add column objetos character varying(300);
+alter table planosant2000 add column objetos character varying(300);
+
+update planospos2000 set plano = partido||'-'||nro_sec||'-'||anio, nomencla = creanomencla(partido, circ, secc, chac, quin, fracc, mz, pc), objetos = genera_objetos(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9);
+update planosant2000 set plano = partido||'-'||nro_sec||'-'||anio, nomencla = creanomencla(partido, circ, secc, chac, quin, fracc, mz, pc), objetos = genera_objetos(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9);
+
+update planospos2000
+-- update planosant2000
+set chac= obtienenumero(mz),
+nomencla = right('000' || ltrim(to_char(partido,'999')),3) || 
+	            right('00' || romantoarabig(circ),2) || 
+	            right('00' || upper(secc),2) ||
+	            right('0000' || obtienenumero(mz),4) || '000' || 
+	            right('0000' || obtienenumero(quin),4) || right('000' ||upper(ltrim(obtieneparteletras(quin))),3) || 
+	            right('0000000' || upper(ltrim(seteafraccion(fracc))),7) || 
+	            right('0000' || obtienenumero(mz),4) || right('000'||upper(ltrim(obtieneparteletras(mz))),3) || 
+	            right('0000' || obtienenumero(pc), 4) || right('000' ||upper(ltrim(obtieneparteletras(pc))),3) 
+where left(nomencla,7) in ('001020E','001060C','005020A','005020B','006010J','006020A','006020B','006020D',
+                           '006070C','007020A','007020B','007020C','007020D','007040E','007110D','007110E',
+                           '007130F','008110A','008110B','009030A','009030B','009030C','009030D','010020A',
+                           '010020B','011020A','011020B','011020C','012020A','012060B','012060C','013010J',
+                           '013010K','013060B','014010H','015010D','015010E','015020F','015020G','015030D',
+                           '015040C','016110A','017020A','017070B','018020B','018050B','019080C','021010J',
+                           '021010M','022170A','022170B','023140C','024150B','024150C','026080H','026110B',
+                           '027020A','027020B','027020C','027020D','027020E','028160A','028170A','028170B',
+                           '029020B','029020C','029020D','030010C','030040A','030050D','030050E','030050F',
+                           '030050R','031010B','031010C','032040A','033050G','033070A','034010F','035010B',
+                           '035030B','035040C','035040E','035040G','035060B','036010E','036010F','036010G',
+                           '038010H','038010J','039020A','040010E','042020A','04204XX','042060A','042060B',
+                           '042060C','042090L','043010H','045020S','045060A','045060B','045060C','045060D',
+                           '045060H','050020A','050020B','051140C','051160A','052020B','053010D','053010E',
+                           '054140D','054140E','054140K','054140L','054140M','054140N','054150K','054150M',
+                           '054150N','054150T','055030A','055030B','055030C','055030D','055030E','055030F',
+                           '055030G','055060H','055060K','055080E','055090K','056010D','057020L','057030C',
+                           '057030D','057030H','057030X','057040N','058010C','058010D','058010E','059070C',
+                           '060020A','060020C','060020D','060020E','060020F','060020G','060020H','060070B',
+                           '061130A','061130B','061130C','062030C','064040A','064090A','065010G','065030D',
+                           '065030E','066020B','067020A','067020B','068030O','069020A','069060B','070010B',
+                           '070050F','070050H','070050P','071020A','071020B','071020C','072010K','072020G',
+                           '072020J','07202AA','072030D','072030E','073010C','074020A','074020B','074060A',
+                           '075010E','076110C','076130A','076130B','076140J','077040F','077080C','077150B',
+                           '077150C','077150D','078020D','078020E','078020F','078020G','078020H','078020J',
+                           '078020K','078020M','079140B','080020A','080020B','082020A','082020B','082020C',
+                           '082020D','082150A','083020A','084010E','084100K','087020B','088010E','088010F',
+                           '089090B','090030A','092010C','092020E','092020F','093010E','093010G','093010H',
+                           '093010L','093010M','093040A','098020A','098110R','099010L','099010M','099010P',
+                           '100020A','100020B','100020D','100080C','101040E','102130A','103010D','103010E',
+                           '103010F','103060F','107170C','107170D','108020A','108170C','109020A','109020B',
+                           '113050J','113060C','113060W','115040B','116010C','118110D','119050C','123040X',
+                           '12304XX','123090E','127020E','129020D','129080C','130040A','130050D','130050E',
+                           '134030D','135040E') 
+      and chac=''and obtieneparteletras(mz)>'';
+
+       
+       
+
+
+--*************************************************************
+-- Correcciones de origenes de quintas     
+--*************************************************************
+update planospos2000
+-- update planosant2000
+set quin= obtienenumero(mz),
+nomencla = right('000' || ltrim(to_char(partido,'999')),3) || 
+	            right('00' || romantoarabig(circ),2) || 
+	            right('00' || upper(secc),2) ||
+	            right('0000' ||obtienenumero(chac),4) || right('000' ||upper(ltrim(obtieneparteletras(chac))),3) || 
+	            right('0000' || obtienenumero(mz),4) || '000' || 
+	            right('0000000' || upper(ltrim(seteafraccion(fracc))),7) || 
+	            right('0000' || obtienenumero(mz),4) || right('000'||upper(ltrim(obtieneparteletras(mz))),3) || 
+	            right('0000' || obtienenumero(pc),4) || right('000'||upper(ltrim(obtieneparteletras(pc))),3) 
+where left(nomencla,7) in ('001010E','001010F','005010B','006010G','006010H','006020E','006070B','007130K',
+                           '008010D','009020A','009020B','010010B','012010D','012010E','012090B','013010G',
+                           '013010H','014010F','014010G','014020D','014020E','015010B','015010C','016010B',
+                           '018010D','019010B','020010B','021010E','021010F','022010B','024010B','026010C',
+                           '026010E','026010F','026010G','026010H','026010J','026010K','027090C','028180E',
+                           '028180F','028180G','028180H','028180J','028180K','030010B','030040A','032010A',
+                           '032050B','033010D','033010E','033020C','034010C','035010A','035040B','035060A',
+                           '036010C','036010D','038070B','039010B','039010C','040010B','043010E','044010B',
+                           '045010D','045010E','045020S','045040L','045040Q','04504GG','045060G','046010D',
+                           '049010D','050010B','051010B','052090B','053010B','055020A','055020B','055020C',
+                           '055020E','055020F','055020G','055020H','055020J','055020K','055020L','055020M',
+                           '055020N','055020O','055020P','055070M','055090A','055090B','056010B','057020D',
+                           '057020E','057020G','057020J','057030B','057030D','057030E','057030H','057030J',
+                           '057030N','057040D','058010B','059010B','059070B','060140B','061010B','061010C',
+                           '062020E','062020F','064010D','064040C','065030C','066010B','068010G','068010J',
+                           '068010K','069010B','070010A','070030G','070040C','070050A','070050D','070050E',
+                           '070050F','070070F','070070G','072020J','072020M','072020N','072020Z','072030B',
+                           '072030J','073010B','074010E','074020B','074020C','074030J','074040A','074040B',
+                           '074040L','074040M','074040P','074040R','074050C','074050N','074060A','074060B',
+                           '074060C','075010B','075010C','076010D','076010E','076010F','076020E','076110B',
+                           '076110E','076140G','076140H','077010B','077080B','078010C','078010D','079010D',
+                           '079010E','080010C','080010D','081010B','082010E','082010F','082010G','082010H',
+                           '082010J','082010K','083010B','084060D','084060H','084090K','084090M','084090O',
+                           '084100H','085010C','085040E','087020A','088010C','089010B','089010C','090020A',
+                           '090020B','091010E','091010F','092020C','092020D','093010B','095010C','099010G',
+                           '099010H','099010J','100010B','100030F','100080D','101020B','101020D','101020E',
+                           '101030A','101030B','101030D','101030H','101040D','101040E','101040F','101040M',
+                           '101050B','101050G','101050H','101050J','102010B','103010B','103010C','104010D',
+                           '106090B','107010B','107010C','107130B','108010B','108170B','109010E','109010F',
+                           '111010B','111130D','113060B','115040B','115040C','115040D','115040E','116010B',
+                           '118040C','118090E','118090F','118090H','118120B','118120G','118120R','119050B',
+                           '121130C','122030B','123040Z','123090D','125060B','126020B','127020D','128050B',
+                           '130030M','130040A','134030C','135040D','135040E','136020D','136040F','136040M',
+                           '136050G','136050H','136050J','137090C')
+       and quin=''and obtieneparteletras(mz)>'';
+       
+
+       
+
+
+--*************************************************************
+-- Correcciones de seccion en parcelas rurales    
+--*************************************************************
+update planospos2000
+--update planosant2000
+set secc='',
+nomencla = right('000' || ltrim(to_char(partido,'999')),3) || 
+	            right('00' || romantoarabig(circ),2) || 
+	            '000000000000000000000000000000' ||
+	            right('0000' || obtienenumero(pc),4) || right('000' || obtieneparteletras(pc),3) 
+where secc='RU' 
+
+--Creo los indices
+create index nomenclapos_btree on planospos2000 using btree(nomencla);
+create index planopos_btree on planospos2000 using btree(plano);
+create index nomenclaant_btree on planosant2000 using btree(nomencla);
+create index planoant_btree on planosant2000 using btree(plano);
