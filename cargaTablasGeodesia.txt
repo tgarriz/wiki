@@ -180,3 +180,5 @@ create index nomenclapos_btree on planospos2000 using btree(nomencla);
 create index planopos_btree on planospos2000 using btree(plano);
 create index nomenclaant_btree on planosant2000 using btree(nomencla);
 create index planoant_btree on planosant2000 using btree(plano);
+
+grant select on all tables in schema public to consulta;
