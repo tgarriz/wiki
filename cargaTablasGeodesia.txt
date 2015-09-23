@@ -173,7 +173,7 @@ nomencla = right('000' || ltrim(to_char(partido,'999')),3) ||
 	            right('00' || romantoarabig(circ),2) || 
 	            '000000000000000000000000000000' ||
 	            right('0000' || obtienenumero(pc),4) || right('000' || obtieneparteletras(pc),3) 
-where secc='RU' 
+where secc='RU';
 
 --Creo los indices
 create index nomenclapos_btree on planospos2000 using btree(nomencla);
