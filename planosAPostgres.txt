@@ -79,6 +79,8 @@ create index nomenclapos_btree on planospos2000 using btree(nomencla);
 create index planopos_btree on planospos2000 using btree(plano);
 create index nomenclaant_btree on planosant2000 using btree(nomencla);
 create index planoant_btree on planosant2000 using btree(plano);
+CREATE INDEX tblca_plano_btree ON tblcargadorarchivo
+  USING btree
 
 Cargar shapes de ARBA
 shp2pgsql -s 22185 -W "LATIN1" -I partidos.shp public.partidos > partidos.sql
