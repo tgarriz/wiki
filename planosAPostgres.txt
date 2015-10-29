@@ -2,8 +2,10 @@ Primero vaciamos la tabla, en el ejemplo la tabla planospos2000
 delete from planospos2000;
 Dpues saco el encabezado del csv, elimino los " y los .
 
-1-Cargo las tablas pos y ant con dbeaver
+1-Cargo las tablas pos, ant y tblCargadorArchivocon dbeaver
 2-Cambio nombre de campos
+  alter table tblcargadorarchivo add column plano character varying (14);
+  update tblcargadorarchivo set plano = nro_part||'-'||nro_sec||'-'||ano_ini;
   alter table planosant2000 rename column "ID" to id;
   alter table planospos2000 rename column "ID" to id;
   alter table planospos2000 rename column ano_ini to anio;
