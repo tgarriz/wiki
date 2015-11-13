@@ -155,3 +155,10 @@ update parcelas pc
 set plano = pl.plano
 from planospos2000 pl 
 where pl.nomencla = '027'|| substr(pc.nomencla,4,39) and pc.plano is null and pc.partido in( 137);
+
+--partido 30 --> partidos 15 (ant)
+update parcelas pc 
+set plano = pl.plano
+from planosant2000 pl 
+where pl.nomencla = '030030A' || substr(pc.nomencla,8,35) and pc.plano is null and pc.partido in( 15) and pl.circ = 'II' and secc = 'Y';
+
