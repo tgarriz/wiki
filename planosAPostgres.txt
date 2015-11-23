@@ -82,6 +82,19 @@ create index planoant_btree on planosant2000 using btree(plano);
 CREATE INDEX tblca_plano_btree ON tblcargadorarchivo
   USING btree
 
+Borrar shapes a reemplazar de ARBA
+drop table partidos;
+drop table calles;
+drop table circunscripcion;
+drop table macizos;
+drop table parcelas_reunion;
+drop table parcelas;
+drop table parcelas_uc;
+drop table seccion;
+drop table subparcelas;
+drop table urbanizaciones_cerradas;
+drop table espacio_verde;
+
 Cargar shapes de ARBA
 shp2pgsql -s 22185 -W "LATIN1" -I partidos.shp public.partidos > partidos.sql
 shp2pgsql -s 22185 -W "LATIN1" -I calles.shp public.calles > calles.sql 
