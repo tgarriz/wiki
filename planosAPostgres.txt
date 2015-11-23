@@ -89,6 +89,7 @@ shp2pgsql -s 22185 -W "LATIN1" -I circunscripcion.shp public.circunscripcion > c
 shp2pgsql -s 22185 -W "LATIN1" -I macizos.shp public.macizos > macizos.sql
 shp2pgsql -s 22185 -W "LATIN1" -I parcelas_reunion.shp public.parcelas_reunion > parcelas_reunion.sql
 shp2pgsql -s 22185 -W "LATIN1" -I parcelas.shp public.parcelas > parcelas.sql
+shp2pgsql -s 22185 -W "LATIN1" -I parcelas_uc.shp public.parcelas_uc > parcelas_uc.sql
 shp2pgsql -s 22185 -W "LATIN1" -I seccion.shp public.seccion > seccion.sql
 shp2pgsql -s 22185 -W "LATIN1" -I subparcelas.shp public.subparcelas > subparcelas.sql
 shp2pgsql -s 22185 -W "LATIN1" -I urbanizaciones_cerradas.shp public.urbanizaciones_cerradas > urbanizaciones_cerradas.sql
