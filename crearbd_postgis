@@ -1,0 +1,10 @@
+Crear base de datos espacial en postgres 9x postgis 2
+En la versión de postgis  2x (para postgres 9x), la forma de crear una base de datos espacial es la siguiente:
+1. Crear una base de datos:
+          psql -d [yourdatabase] -c "CREATE EXTENSION postgis;"
+2. Crear la extensiòn espacial a esa base de datos:
+          psql -d [yourdatabase] -c "CREATE EXTENSION postgis;"
+3. Crear la extensiòn topologìa
+           psql -d [yourdatabase] -c "CREATE EXTENSION postgis_topology;"
+
+ Yo he creado de esta forma mi "postgis_template" y luego solo la uso como plantilla para las nuevas bases de datos espaciales.
