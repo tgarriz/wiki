@@ -8,3 +8,6 @@ create table seccion_ch as select * from seccion where partido = 27;
 create table circunscripcion_ch as select * from circunscripcion where partido = 27;
 
 Generar una nueva tabla parcelas con las valuaciones asociadas
+Primero crear campo pda del tipo text para comparar en la tabla parcelas (arba)
+create table parcelas_v as select p.*, v.barrio, v.tipo_inm, v.uso_inm, v.sup_ter, v.valuacion, v.cod_zona, v.nombre, v.cp, v.localidad, v.calle, v.puerta, v.puertabis, v.piso, v.depto, v.importe from parcelas_ch as p left join valuaciones as v on p.pda = v.partida and p.partida != 0;
+
