@@ -1,6 +1,10 @@
+Crear las tablas a partir de las tablas de arba
+
 create table parcelas_ch as select * from parcelas where partido = 27;
 create table subparcelas_ch as select * from subparcelas where partido = 27;
 create table macizos_ch as select * from macizos where partido = 27;
 create table calles_ch as select * from calles where partido = 27;
 create table seccion_ch as select * from seccion where partido = 27;
 create table circunscripcion_ch as select * from circunscripcion where partido = 27;
+
+Generar una nueva tabla parcelas con las valuaciones asociadas
