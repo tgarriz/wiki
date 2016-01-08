@@ -79,8 +79,7 @@ create index nomenclapos_btree on planospos2000 using btree(nomencla);
 create index planopos_btree on planospos2000 using btree(plano);
 create index nomenclaant_btree on planosant2000 using btree(nomencla);
 create index planoant_btree on planosant2000 using btree(plano);
-CREATE INDEX tblca_plano_btree ON tblcargadorarchivo
-  USING btree
+CREATE INDEX tblca_plano_btree ON tblcargadorarchivo USING btree(plano);
 
 Borrar shapes a reemplazar de ARBA
 drop table partidos;
