@@ -24,6 +24,9 @@ set plano = pl.plano
 from planosant2000 pl 
 where pc.nomencla = pl.nomencla and pc.plano is null;
 
+--indexo plano
+create index plano_btree on parcelas using btree(plano);
+
 --Arreglo de Pte Peron
 update parcelas pc 
 set plano = pl.plano
