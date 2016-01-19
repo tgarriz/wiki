@@ -6,6 +6,7 @@ create table macizos_ch as select * from macizos where partido = 27;
 create table calles_ch as select * from calles where partido = 27;
 create table seccion_ch as select * from seccion where partido = 27;
 create table circunscripcion_ch as select * from circunscripcion where partido = 27;
+create table partido_saa as select * from partidos where partido = 95;
 
 Generar una nueva tabla parcelas con las valuaciones asociadas
 Primero crear campo pda del tipo text para comparar en la tabla parcelas (arba)
