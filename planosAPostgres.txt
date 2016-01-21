@@ -130,8 +130,8 @@ create index plano_btree on parcelas using btree(plano);
 create index partida_btree on parcelas using btree(partida);
 
 Para asignar objetos a tabla parcelas correr 
-update parcelas pc set objetos = (select objetos from planosant2000 pl where pc.plano = pl.plano);
-update parcelas pc set objetos = (select objetos from planospos2000 pl where pc.plano = pl.plano);
+update parcelas pc set objetos = (select objetos from planosant2000 pl where pc.plano = pl.plano limit 1);
+update parcelas pc set objetos = (select objetos from planospos2000 pl where pc.plano = pl.plano limit 1);
 
 Asignar permisos a usuario consulta
 grant select on all tables in schema public to consulta;
