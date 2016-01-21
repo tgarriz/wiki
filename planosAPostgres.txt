@@ -93,6 +93,7 @@ drop table seccion;
 drop table subparcelas;
 drop table urbanizaciones_cerradas;
 drop table espacio_verde;
+drop table parcelas_reunion;
 
 Cargar shapes de ARBA
 shp2pgsql -s 22185 -W "LATIN1" -I partidos.shp public.partidos > partidos.sql
