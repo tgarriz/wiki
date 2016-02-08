@@ -1,0 +1,4 @@
+Generar fracciones censales a partir de radios censales
+create table pobl_x_fraccion as select substr(link,1,7) as fraccion, sum(varon) as varones, sum(mujer) as mujeres, sum(totalpobl) as totalpobl, st_union(geom) as geom
+from pobl_x_radio
+group by  substr(link,1,7);
