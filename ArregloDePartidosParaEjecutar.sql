@@ -14,15 +14,22 @@ insert into parcelas (nomencla,partido,etiqueta,rural,partida,caracteris,geom)
 ALTER TABLE parcelas ADD COLUMN plano character varying(14);
 
 --Vinculo los planos
-update parcelas pc 
-set plano = pl.plano
-from planospos2000 pl 
-where pc.nomencla = pl.nomencla and pc.plano is null;
+update parcelas pc set pc.plano = pl2.plano
+from (select pl.nomencla, plano from (select nomencla,max(ano_aprob) as anio_max
+					from planospos2000 pl 
+					group by nomencla) max,
+					planospos2000 pl
+					Where max.nomencla=pl.nomencla and anio_max=ano_aprob) pl2
+				where pc.nomencla = pl2.nomencla );
+				
 
-update parcelas pc 
-set plano = pl.plano
-from planosant2000 pl 
-where pc.nomencla = pl.nomencla and pc.plano is null;
+update parcelas pc set pc.plano = pl2.plano
+from (select pl.nomencla, plano from (select nomencla,max(anio) as anio_max
+					from planosant2000 pl 
+					group by nomencla) max,
+					planospos2000 pl
+					Where max.nomencla=pl.nomencla and anio_max=anio) pl2
+				where pc.nomencla = pl2.nomencla );
 
 --indexo plano
 create index plano_btree on parcelas using btree(plano);
