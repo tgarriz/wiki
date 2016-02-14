@@ -105,6 +105,7 @@ shp2pgsql -s 22185 -W "LATIN1" -I parcelas.shp public.parcelas > parcelas.sql
 shp2pgsql -s 22185 -W "LATIN1" -I parcelas_uc.shp public.parcelas_uc > parcelas_uc.sql
 shp2pgsql -s 22185 -W "LATIN1" -I seccion.shp public.seccion > seccion.sql
 shp2pgsql -s 22185 -W "LATIN1" -I subparcelas.shp public.subparcelas > subparcelas.sql
+shp2pgsql -s 22185 -W "LATIN1" -I reserva_equipamiento_comunitario.shp public.reserva_equipamiento_comunitario > reserva_equipamiento_comunitario.sql
 shp2pgsql -s 22185 -W "LATIN1" -I urbanizaciones_cerradas.shp public.urbanizaciones_cerradas > urbanizaciones_cerradas.sql
 shp2pgsql -s 22185 -W "LATIN1" -I espacio_verde.shp public.espacio_verde > espacio_verde.sql
 cat *.sql > cargatotal.sql (junto los sql)
