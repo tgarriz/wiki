@@ -111,31 +111,8 @@ shp2pgsql -s 22185 -W "LATIN1" -I espacio_verde.shp public.espacio_verde > espac
 cat *.sql > cargatotal.sql (junto los sql)
 psql -d geobasig -f cargatotal.sql (cargo las tablas al mismo tiempo)
 
-Agrego campo objetos y plano a tabla parcelas
-alter table parcelas add column plano character varying(14);
-alter table parcelas add column objetos character varying(300);
-
-Creo Indices de las tablas de arba
-create index nomencla_btree on parcelas using btree(nomencla);
-CREATE INDEX parcelas_geom_gist ON public.parcelas USING gist(geom);
-CREATE INDEX macizos_geom_gist ON public.macizos USING gist(geom);
-CREATE INDEX calles_geom_gist ON public.calles USING gist(geom);
-CREATE INDEX seccion_geom_gist ON public.seccion USING gist(geom);
-CREATE INDEX circunscripcion_geom_gist ON public.circunscripcion USING gist(geom);
-
 Asignar valores a campo plano y objetos a tablas geodesia
 Para asignar plano a tabla parcelas correr script ArregloDePartidosParaEjecutar.sql
-
-Crear Indices en tabla parcelas
-create index plano_btree on parcelas using btree(plano);
-create index partida_btree on parcelas using btree(partida);
-
-Para asignar objetos a tabla parcelas correr 
-update parcelas pc set objetos = (select objetos from planosant2000 pl where pc.plano = pl.plano limit 1);
-update parcelas pc set objetos = (select objetos from planospos2000 pl where pc.plano = pl.plano limit 1);
-
-Asignar permisos a usuario consulta
-grant select on all tables in schema public to consulta;
 
 Script (Adaptar los nombres de los csv)
 delete from planospos2000;
