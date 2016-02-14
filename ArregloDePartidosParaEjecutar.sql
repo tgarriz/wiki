@@ -1,6 +1,4 @@
 --Arreglo de tabla parcelas comentado
---Asigno permisos de consuta a usuario consulta para todo el schema public
-grant select on all tables in schema public to consulta;
 
 --elimino parcelas reunidas
 delete from only parcelas p using parcelas_reunion r
@@ -10,8 +8,17 @@ where ST_intersects(ST_centroid(r.geom),p.geom);
 insert into parcelas (nomencla,partido,etiqueta,rural,partida,caracteris,geom)
 	      select nomencla,partido,etiqueta,rural,partida,caracteris,geom from parcelas_reunion;
 
---agrego columna plano
-ALTER TABLE parcelas ADD COLUMN plano character varying(14);
+--Agrego campo objetos y plano a tabla parcelas
+alter table parcelas add column plano character varying(14);
+alter table parcelas add column objetos character varying(300);
+
+--Creo Indices de las tablas de arba
+create index nomencla_btree on parcelas using btree(nomencla);
+CREATE INDEX parcelas_geom_gist ON public.parcelas USING gist(geom);
+CREATE INDEX macizos_geom_gist ON public.macizos USING gist(geom);
+CREATE INDEX calles_geom_gist ON public.calles USING gist(geom);
+CREATE INDEX seccion_geom_gist ON public.seccion USING gist(geom);
+CREATE INDEX circunscripcion_geom_gist ON public.circunscripcion USING gist(geom);
 
 --Vinculo los planos
 update parcelas pc set pc.plano = pl2.plano
@@ -171,4 +178,16 @@ update parcelas pc
 set plano = pl.plano
 from planosant2000 pl 
 where pl.nomencla = '030030A' || substr(pc.nomencla,8,35) and pc.plano is null and pc.partido in( 15) and pl.circ = 'II' and secc = 'Y';
+
+--Crear Indices en tabla parcelas
+create index plano_btree on parcelas using btree(plano);
+create index partida_btree on parcelas using btree(partida);
+
+--Para asignar objetos a tabla parcelas correr 
+update parcelas pc set objetos = (select objetos from planosant2000 pl where pc.plano = pl.plano limit 1);
+update parcelas pc set objetos = (select objetos from planospos2000 pl where pc.plano = pl.plano limit 1);
+
+--Asigno permisos de consuta a usuario consulta para todo el schema public
+grant select on all tables in schema public to consulta;
+
 
