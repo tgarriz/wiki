@@ -1,0 +1,13 @@
+Lo siguiente explica como consultar, editar y listar funciones en plsql 
+1- \df nombre_funcion
+   \df+ nombre_funcion
+Estos comandos muestran la definición de la función
+
+2- \ef nombre_funcion
+Abre la definición de la función para su edición.
+
+3- \df
+Lista todas las funciones del usuario
+
+4- \dfS
+Lista todas las funciones
