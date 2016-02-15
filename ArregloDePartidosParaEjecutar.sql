@@ -37,6 +37,14 @@ from (select pl.nomencla, plano from (select nomencla,max(anio) as anio_max
 					planosant2000 pl
 					Where max.nomencla=pl.nomencla and anio_max=anio) pl2
 				where pc.nomencla = pl2.nomencla );
+				
+o probar porque la de arriba no anda 
+update parcelas pc set plano = (select plano 
+				from (select nomencla, plano, max(anio) as anomax 
+					from planosant2000 
+					group by plano,nomencla 
+					order by anomax) as cons 
+				where pc.nomencla=cons.nomencla);
 
 --indexo plano
 create index plano_btree on parcelas using btree(plano);
