@@ -21,31 +21,7 @@ CREATE INDEX seccion_geom_gist ON public.seccion USING gist(geom);
 CREATE INDEX circunscripcion_geom_gist ON public.circunscripcion USING gist(geom);
 
 --Vinculo los planos
-update parcelas pc set pc.plano = pl2.plano
-from (select pl.nomencla, plano from (select nomencla,max(ano_aprob) as anio_max
-					from planospos2000 pl 
-					group by nomencla) max,
-					planospos2000 pl
-					Where max.nomencla=pl.nomencla and anio_max=ano_aprob) pl2
-				where pc.nomencla = pl2.nomencla );
-				
-
-update parcelas pc set pc.plano = pl2.plano
-from (select pl.nomencla, plano from (select nomencla,max(anio) as anio_max
-					from planosant2000 pl 
-					group by nomencla) max,
-					planosant2000 pl
-					Where max.nomencla=pl.nomencla and anio_max=anio) pl2
-				where pc.nomencla = pl2.nomencla );
-				
-o probar porque la de arriba no anda 
-update parcelas pc set plano = (select plano 
-				from (select nomencla, plano, max(anio) as anomax 
-					from planosant2000 
-					group by plano,nomencla 
-					order by anomax) as cons 
-				where pc.nomencla=cons.nomencla);
-
+update parcelas pc set pc.plano = asigna_plano(nomencla);
 --indexo plano
 create index plano_btree on parcelas using btree(plano);
 
