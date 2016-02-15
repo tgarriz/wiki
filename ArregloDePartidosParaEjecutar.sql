@@ -34,7 +34,7 @@ update parcelas pc set pc.plano = pl2.plano
 from (select pl.nomencla, plano from (select nomencla,max(anio) as anio_max
 					from planosant2000 pl 
 					group by nomencla) max,
-					planospos2000 pl
+					planosant2000 pl
 					Where max.nomencla=pl.nomencla and anio_max=anio) pl2
 				where pc.nomencla = pl2.nomencla );
 
