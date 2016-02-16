@@ -1,0 +1,23 @@
+pg_dump -i -t calles -t circunscripcion -t espacio_verde -t macizos -t parcelas -t parcelas_reunion -t parcelas_uc -t planosant2000 -t planospos2000 -t seccion -t tblcargadorarchivo -t urbanizaciones_cerradas -t reserva_equipamiento_comunitario -t seccion -t subparcelas -F p -b -v -f "./mitablas.sql" geobasig
+
+Borramos las tablas del entorno de produccion
+drop table calles;
+drop table circunscripcion ;
+drop table espacio_verde; 
+drop table macizos; 
+drop table parcelas; 
+drop table parcelas_reunion ;
+drop table parcelas_uc ;
+drop table planosant2000; 
+drop table planospos2000; 
+drop table tblcargadorarchivo; 
+drop table urbanizaciones_cerradas; 
+drop table reserva_equipamiento_comunitario; 
+drop table seccion; 
+drop table subparcelas;
+
+Luego cargamos las nuevas tablas al entorno de produccion
+psql geobasig -f mistablas.sql
+
+Y por ultimo 
+grant select on all tables in schema public to consulta;
