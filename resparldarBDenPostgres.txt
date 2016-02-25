@@ -1,5 +1,12 @@
 HACER EL BACKUP
 
+Backup de todas las bases de datos del servidor PostgreSQL
+Mediante pg_dumpall podemos hacer con un único comando una copia de seguridad de todas las bases de datos del servidor:
+
+# pg_dumpall > backup_server.sql
+Posteriormente para restaurar todas las bases de datos:
+
+# psql -f backup_server.sql postgres
 Con el siguiente comando sacaremos respaldo del esquema (schema) de la base de datos:
 pg_dump -sv prueba -O > /backup/prueba.schema.sql
 Con el siguiente comando sacaremos el repaldo de la DATA de la base de datos:
