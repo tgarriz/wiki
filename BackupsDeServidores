@@ -1,0 +1,5 @@
+Backups de Produccion
+Ide
+tar -cvpjf pr-nginx-ide_`date +%Y%m%d`.tar.bz2 /usr/share/nginx/
+tar -cvpjf pr-geoserver-all_`date +%Y%m%d`.tar.bz2 /var/lib/tomcat7/webapps/geoserver/
+tar -cvpjf pr-etc_`date +%Y%m%d`.tar.bz2 /etc
