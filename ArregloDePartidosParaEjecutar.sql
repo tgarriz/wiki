@@ -14,14 +14,14 @@ alter table parcelas add column objetos character varying(300);
 
 --Creo Indices de las tablas de arba
 create index nomencla_btree on parcelas using btree(nomencla);
-CREATE INDEX parcelas_geom_gist ON public.parcelas USING gist(geom);
-CREATE INDEX macizos_geom_gist ON public.macizos USING gist(geom);
-CREATE INDEX calles_geom_gist ON public.calles USING gist(geom);
-CREATE INDEX seccion_geom_gist ON public.seccion USING gist(geom);
-CREATE INDEX circunscripcion_geom_gist ON public.circunscripcion USING gist(geom);
+--CREATE INDEX parcelas_geom_gist ON public.parcelas USING gist(geom);
+--CREATE INDEX macizos_geom_gist ON public.macizos USING gist(geom);
+--CREATE INDEX calles_geom_gist ON public.calles USING gist(geom);
+--CREATE INDEX seccion_geom_gist ON public.seccion USING gist(geom);
+--CREATE INDEX circunscripcion_geom_gist ON public.circunscripcion USING gist(geom);
 
 --Vinculo los planos
-update parcelas pc set pc.plano = asigna_plano(nomencla);
+update parcelas set plano = asigna_plano(nomencla);
 --indexo plano
 create index plano_btree on parcelas using btree(plano);
 
