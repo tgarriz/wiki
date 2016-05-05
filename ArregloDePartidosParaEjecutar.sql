@@ -171,6 +171,9 @@ create index partida_btree on parcelas using btree(partida);
 update parcelas pc set objetos = (select objetos from planosant2000 pl where pc.plano = pl.plano limit 1);
 update parcelas pc set objetos = (select objetos from planospos2000 pl where pc.plano = pl.plano limit 1);
 
+--Ponemos en null los planos en '' para manejar el estilo del geoserver
+update parcelas set plano = null where plano = '';
+
 --Asigno permisos de consuta a usuario consulta para todo el schema public
 grant select on all tables in schema public to consulta;
 
