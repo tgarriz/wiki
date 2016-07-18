@@ -1,0 +1,8 @@
+Crear virtual
+vagrant add box .......
+vagrant up
+vagrant ssh
+Vagrant plugin install vagrant-vbguest
+
+Git
+git clone git://.....   mygit
