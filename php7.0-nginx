@@ -1,0 +1,9 @@
+#Specifies that Nginx is looking for .php files
+	location ~ \.php$ { 
+		#If a file isn’t found, 404
+		try_files $uri =404; 
+		#Include Nginx’s fastcgi configuration
+		include /etc/nginx/fastcgi.conf;
+		#Look for the FastCGI Process Manager at this location 
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock; 
+	}
