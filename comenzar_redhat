@@ -1,0 +1,17 @@
+ip addr --> vemos q interfaces tiene
+Luego entramos a /etc/sysconfig/network-scripts/
+vi ifcfg-eth0 o  vi ifcfg-ens33 (segun el caso) 
+--------------Archivo------------------
+# Intel Corporation 82541GI Gigabit Ethernet Controller
+DEVICE=eth0
+BOOTPROTO=none
+BROADCAST=22.23.112.255
+HWADDR=01:09:4B:7F:6C:E3  # Dirección MAC
+IPADDR= 64.34.55.50  # Ip de la interfaz de red
+NETMASK= 255.255.255.0  # Máscara de red
+NETWORK= 64.34.55.0 # Red en la que se encuentra
+ONBOOT=yes  # Arranque automático al inicio del sistema
+GATEWAY= 64.34.55.1 # Puerta de enlace
+TYPE=Ethernet
+-----------------------------------------
+
