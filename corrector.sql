@@ -6,7 +6,7 @@ nomencla = right('000' || ltrim(to_char(partido,'999')),3) ||
 	            right('00' || upper(secc),2) ||
 	            right('0000' || obtienenumero(mz),4) || '000' || 
 	            right('0000' || obtienenumero(quin),4) || right('000' ||upper(ltrim(obtieneparteletras(quin))),3) || 
-	            right('0000000' || upper(ltrim(seteafraccion(frac))),7) || 
+	            right('0000000' || upper(ltrim(setearfraccion(frac))),7) || 
 	            right('0000' || obtienenumero(mz),4) || right('000'||upper(ltrim(obtieneparteletras(mz))),3) || 
 	            right('0000' || obtienenumero(pc), 4) || right('000' ||upper(ltrim(obtieneparteletras(pc))),3) 
 where left(nomencla,7) in ('001020E','001060C','005020A','005020B','006010J','006020A','006020B','006020D',
@@ -60,7 +60,7 @@ nomencla = right('000' || ltrim(to_char(partido,'999')),3) ||
 	            right('00' || upper(secc),2) ||
 	            right('0000' ||obtienenumero(chac),4) || right('000' ||upper(ltrim(obtieneparteletras(chac))),3) || 
 	            right('0000' || obtienenumero(mz),4) || '000' || 
-	            right('0000000' || upper(ltrim(seteafraccion(frac))),7) || 
+	            right('0000000' || upper(ltrim(setearfraccion(frac))),7) || 
 	            right('0000' || obtienenumero(mz),4) || right('000'||upper(ltrim(obtieneparteletras(mz))),3) || 
 	            right('0000' || obtienenumero(pc),4) || right('000'||upper(ltrim(obtieneparteletras(pc))),3) 
 where left(nomencla,7) in ('001010E','001010F','005010B','006010G','006010H','006020E','006070B','007130K',
