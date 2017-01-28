@@ -164,7 +164,7 @@ from planosant2000 pl
 where pl.nomencla = '030030A' || substr(pc.nomencla,8,35) and pc.plano is null and pc.partido in( 15) and pl.circ = 'II' and secc = 'Y';
 
 --Crear Indices en tabla parcelas
-create index plano_btree on parcelas using btree(plano);
+--create index plano_btree on parcelas using btree(plano);
 create index partida_btree on parcelas using btree(partida);
 
 --Para asignar objetos a tabla parcelas correr 
