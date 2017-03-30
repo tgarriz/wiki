@@ -20,6 +20,14 @@ La opción  –disable-triggers la uso para que no de problemas a la hora de hac
 Estos comandos nos crearan dos archivos, uno con el esquema (schema) y otro con la data de la base de datos.
 Para restaurar la información haremos lo siguiente.
 
+Respaldar un schema de una BD
+
+#pg_dump --schema=masters oldDB > masters1.sql
+
+Restaurar schema
+
+#cat masters1.sql | psql newDB
+
 RESTAURAR (tener en cuenta que si no esta creada la BD tendremos que crearla)
 
 Ya estando de vuela en la consola de sistema, ejecutaremos el siguiente comando:
