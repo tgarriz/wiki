@@ -1,0 +1,6 @@
+Compilar vmwarr tools en debian 8
+
+1-Instalar gcc make automake y linux-headers
+  apt-get install gcc make automake 
+  apt-cache search linux-heades-$(uname -r) --> 
+  apt-get install linux-headers-3.16.0-4-amd64
