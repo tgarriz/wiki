@@ -20,3 +20,6 @@ Lista tablas con informacion de espacio que ocupan
 
 7-\dn
 Lista schemas
+
+8-\l o \l+
+Lista BD y con el "+" agrega info de espacio
