@@ -11,3 +11,12 @@ Lista todas las funciones del usuario
 
 4- \dfS
 Lista todas las funciones
+
+5-\dt 
+Lista tablas
+
+6-\dt+
+Lista tablas con informacion de espacio que ocupan
+
+7-\dn
+Lista schemas
