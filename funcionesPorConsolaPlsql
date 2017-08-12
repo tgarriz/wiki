@@ -23,3 +23,6 @@ Lista schemas
 
 8-\l o \l+
 Lista BD y con el "+" agrega info de espacio
+
+9-\c base
+Cambia de BD
