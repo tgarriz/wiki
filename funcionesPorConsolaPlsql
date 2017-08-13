@@ -26,3 +26,13 @@ Lista BD y con el "+" agrega info de espacio
 
 9-\c base
 Cambia de BD
+
+
+# First, make a dump of the database without data (-s)
+$ pg_dump -h localhost -U username -Fc -s -f db_dump dbName
+
+# Create a list of the functions
+$ pg_restore -l db_dump | grep FUNCTION > function_list
+
+# Restore the functions in an other database
+$ pg_restore -h localhost -U username -d other-dbName -L function_list db_dump
