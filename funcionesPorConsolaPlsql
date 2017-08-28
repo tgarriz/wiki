@@ -36,3 +36,7 @@ $ pg_restore -l db_dump | grep FUNCTION > function_list
 
 # Restore the functions in an other database
 $ pg_restore -h localhost -U username -d other-dbName -L function_list db_dump
+
+#Darle permiso a un usuario en a todas las tablas de un determinado schema
+GRANT USAGE ON SCHEMA public TO myuser; -- more schemas?
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO myuser;
