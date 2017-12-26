@@ -1,0 +1,71 @@
+https://blog.desdelinux.net/reparacion-del-sistema-howto-chroot/
+
+Reparación del sistema: HowTo chroot
+woqer
+5-7 minutes
+
+Muchas veces, sobre todo cuando se anda trasteando, nos hemos visto en el aprieto de no poder acceder al sistema para repararlo, pero la solución es fácil: usar el comando chroot desde un LiveCD/RepairCD cualquiera.
+
+En muchos sitios (foros, blogs…) se menciona este comando y se da un “copy/paste” del código, pero mi intención con este post es explicar un poco esos pasos, para poder hacer un buen uso de esta herramienta, con conocimiento de causa.
+Introducción
+
+El comando chroot es conocido como CHangeROOT, es decir, un comando que te permite cambiar la raíz del sistema sobre la que estás trabajando. En otra palabras: si estás desde un LiveCD y quieres que todo lo que estés trabajando sobre la consola tenga efecto en el sistema instalado, previamente debes hacer uso de chroot.
+
+El problema está en que no basta con usar chroot tal cual, antes debemos montar adecuadamente determinadas particiones.
+HOW TO
+
+Primero necesitamos iniciar alguna terminal, ya sea desde otro sistema instalado (en otra partición/disco) o desde un LiveCD. IMPORTANTE: la arquitectura del LiveCD debe coincidir con la del sistema a reparar (32 o 64 bits).
+Una vez estemos en la terminal empezaremos identificando nuestras particiones:
+fdisk -l
+
+    Con este comando listaremos todas nuestras particiones/discos. Debemos identificar cuál es la partición objetivo, donde está instalado nuestro sistema a reparar, a partir de ahora lo llamaremos sistema roto.
+
+Para este ejemplo consideraremos que nuestro sistema roto está en /dev/sda1 .
+
+Pasamos a montar el sistema. Primero crearemos la carpeta donde vamos a trabajar y posteriormente montamos la partición donde se encuentra nuestro sistema roto en dicha carpeta
+mkdir /mnt/my_linux
+ mount /dev/sda1 /mnt/my_linux
+Si tenéis la carpeta /home o /var o cualquier otra en otra partición, deberíais montarla/s de la siguiente manera:
+mount /dev/sda2 /mnt/my_linux/var
+
+    NOTA: he tomado como ejemplo la partición /dev/sda2 para la carpeta /var, que cada uno ajuste el código a sus características.
+
+Normalmente con esto bastaría si simplemente se necesita editar archivos a mano, pero si queremos ejecutar algunos comandos que configuran el sistema, nos hace falta montar determinadas carpetas especiales del sistema: /dev, /proc y  /sys.
+mount -t proc proc /mnt/my_linux/proc
+ mount -t sysfs sys /mnt/my_linux/sys
+ mount -o bind /dev /mnt/my_linux/dev
+
+    Con la opción -t le decimos a mount el tipo de “filesystem” que queremos montar. Es necesario especificarlo por la naturaleza especial de las carpetas /proc y /sys.
+
+    Con la opción -o especificamos las opciones de mount. La opción bind sirve para “linkear”. En UNIX todos los dispositivos hardware son accesibles a través de la carpeta /dev, por eso debemos montar nuestro actual /dev en la carpeta donde ahora se encuentra nuestro sistema roto. Al ya estar montada esta carpeta, solo es necesario decirle a mount dónde está originalmente montada.
+
+Se hace de esta forma para que chroot tenga acceso a estas carpetas como si se tratasen del sistema roto, aunque deben ser del sistema actual (ej: la sesión del LiveCD) ya que guardan relación con el estado del sistema, los procesos y el hardware.
+
+Ahora llega el momento de poder usar chroot:
+chroot /mnt/my_linux/ /bin/bash
+
+    Al comando se le pasan como argumentos la ruta de la nueva raíz “/” (que en nuestro caso es /mnt/my_linux) y la consola que se desea utilizar (en este caso hemos optado por la archiconocida bash, encontrada en /bin/bash). Si no especificamos la consola nos encontraremos ante un intérprete de órdenes un poco arcaico (no rellena al pulsar el tabulador, etc).
+
+Ahora ya podemos usar la consola como si tuviesemos la sesión de root iniciada en nuestro sistema roto (editar archivos, revisar scripts, instalar/desinstalar paquetes…). ¡OJO!, para que los cambios realizados surtan efecto, hay que desmontar el sistema de ficheros después de salir de chroot, mirad el ejemplo de abajo.
+
+Más información en https://wiki.archlinux.org/index.php/Change_Root (lectura más que recomendada).
+Ejemplo de uso: restauración de GRUB2
+
+Uno de los usos más extendidos de chroot es como herramienta para poder reparar el GRUB. Ya que si se nos rompe el grub, es prácticamente imposible bootear nuestro sistema para poder arreglarlo.
+
+AVISO: este pequeño tutorial es un mero ejemplo, funciona en varias distribuciones derivadas de Debian, Ubuntu y openSUSE entre otras. Aún así revisen la documentación propia de vuestra distribución, ya que en muchas no se encuentra el comando update-grub.
+# NOTA: estos comandos se ejecutan una vez dentro de chroot.update-grub
+ grub-install /dev/sda
+
+    Con update-grub actualizamos el menu de entrada de GRUB2, añadiendo así las posibles entradas que falten. Posteriormente reinstalamos GRUB en nuestro disco, ya que ha sido dañado.
+
+En este caso he tomado /dev/sda como el disco en donde tenemos nuestro sistema, esto debéis adaptarlo a vuestro caso.
+
+Nuestro GRUB ya debería estar reparado, asi que debemos salir de chroot, desmontar el sistema de ficheros (IMPORTANTE) y reiniciar para que los cambios surtan efecto. Si se nos olvida desmontar el sistema de ficheros, es posible que al reiniciar éstos no se desmonten correctamente y por lo tanto algunos cambios no tendrían efecto.
+# salimos de chrootexit
+# desmontamos el sistema de ficheros y reiniciamosumount /mnt/my_linux/dev
+ umount /mnt/my_linux/sys
+ umount /mnt/my_linux/proc
+ umount /mnt/my_linux
+ reboot
+Y esto es todo. Espero que lo disfruten y que les sirva de utilidad. ¡Un saludo!
