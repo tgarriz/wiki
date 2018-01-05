@@ -1,0 +1,18 @@
+	
+
+Para crear un certificado firmado por el mismo servidor se debe realizar lo siguiente:
+
+    keytool -genkey -keystore .Almacen -keyalg RSA -keysize 4096 -validity 7200
+
+Para configurarlo en el servidor Tomcat, en el servidor server.xml:
+
+    <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+               maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS"
+               keystoreFile="/path/.Almacen"
+               keystorePass="Clave del Almacen" />
+
+Luego convertir a pkcs12 el almacen ya q es el estandar
+
+     keytool -importkeystore -srckeystore .Almacen -destkeystore .Almacen -deststoretype pkcs12
+
